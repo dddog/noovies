@@ -42,7 +42,7 @@ const Tabs = () => {
         component={Movies}
         options={{
           tabBarIcon: ({ color, size }) => {
-            console.log(color, size);
+            // console.log(color, size);
             return <Ionicons name="film-outline" size={size} color={color} />;
           },
         }}
