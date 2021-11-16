@@ -52,7 +52,7 @@ const Tabs = () => {
         component={Tv}
         options={{
           tabBarIcon: ({ color, size }) => {
-            console.log(color, size);
+            // console.log(color, size);
             return <Ionicons name="tv-outline" size={size} color={color} />;
           },
         }}
@@ -62,7 +62,7 @@ const Tabs = () => {
         component={Search}
         options={{
           tabBarIcon: ({ color, size }) => {
-            console.log(color, size);
+            // console.log(color, size);
             return <Ionicons name="search-outline" size={size} color={color} />;
           },
         }}

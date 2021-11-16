@@ -1,8 +1,9 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, Dimensions } from "react-native";
+import { ActivityIndicator, Dimensions, ScrollView } from "react-native";
 import Swiper from "react-native-swiper";
 import styled from "styled-components/native";
+import Poster from "../components/Poster";
 import Slide from "../components/Slide";
 
 const API_KEY = "64e7e0c80d0f8ff24f3087834a8848b7";
@@ -20,6 +21,65 @@ const Loader = styled.View`
 `;
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
+
+const ListTitle = styled.Text`
+  color: white;
+  font-size: 18px;
+  font-weight: 900;
+  margin-left: 20px;
+`;
+
+const TrendingScroll = styled.ScrollView`
+  margin-top: 20px;
+`;
+
+const Movie = styled.View`
+  margin-right: 15px;
+  align-items: center;
+`;
+
+const HMovie = styled.View`
+  padding: 0px 20px;
+  margin-bottom: 30px;
+  flex-direction: row;
+`;
+
+const HColumn = styled.View`
+  margin-left: 15px;
+  width: 80%;
+`;
+
+const Title = styled.Text`
+  color: white;
+  font-weight: 600;
+  margin-top: 7px;
+  margin-bottom: 5px;
+`;
+
+const Overview = styled.Text`
+  color: white;
+  opacity: 0.6;
+  width: 80%;
+`;
+
+const Votes = styled.Text`
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+`;
+
+const ListContainer = styled.View`
+  margin-bottom: 40px;
+`;
+
+const Release = styled.Text`
+  color: white;
+  font-size: 12px;
+  margin-vertical: 10px;
+`;
+
+const ComingSoonTitle = styled(ListTitle)`
+  margin-bottom: 20px;
+`;
 
 const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = ({
   navigation: { navigate },
@@ -73,7 +133,11 @@ const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = ({
         autoplayTimeout={3.5}
         showsButtons={false}
         showsPagination={false}
-        containerStyle={{ width: "100%", height: SCREEN_HEIGHT / 4 }}
+        containerStyle={{
+          marginBottom: 20,
+          width: "100%",
+          height: SCREEN_HEIGHT / 4,
+        }}
       >
         {nowPlaying.map((movie) => (
           <Slide
@@ -86,6 +150,50 @@ const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = ({
           />
         ))}
       </Swiper>
+      <ListContainer>
+        <ListTitle>Trending Movies</ListTitle>
+        <TrendingScroll
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{ paddingLeft: 20 }}
+        >
+          {trending.map((movie) => (
+            <Movie key={movie.id}>
+              <Poster path={movie.poster_path} />
+              <Title>
+                {movie.original_title.slice(0, 13)}
+                {movie.original_title.length > 13 ? "..." : null}
+              </Title>
+              <Votes>
+                {movie.vote_average > 0
+                  ? `⭐ ${movie.vote_average}/10`
+                  : `Coming soon`}
+              </Votes>
+            </Movie>
+          ))}
+        </TrendingScroll>
+      </ListContainer>
+      <ComingSoonTitle>Coming soon</ComingSoonTitle>
+      {upcoming.map((movie) => (
+        <HMovie key={movie.id}>
+          <Poster path={movie.poster_path} />
+          <HColumn>
+            <Title>{movie.original_title}</Title>
+            <Release>
+              {new Date(movie.release_date).toLocaleDateString("ko", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </Release>
+            <Overview>
+              {movie.overview !== "" && movie.overview.length > 140
+                ? `${movie.overview.slice(0, 140)}...`
+                : movie.overview}
+            </Overview>
+          </HColumn>
+        </HMovie>
+      ))}
     </Container>
   );
 };

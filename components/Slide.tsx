@@ -26,7 +26,7 @@ const Column = styled.View`
 const Overview = styled.Text<{ isDark: boolean }>`
   margin-top: 10px;
   color: ${(props) =>
-    props.isDark ? "rgba(255, 255, 255, 0.8)" : "rgba(0, 0, 0, 0.8)"};
+    props.isDark ? "rgba(255, 255, 255, 0.6)" : "rgba(0, 0, 0, 0.6)"};
 `;
 const Votes = styled(Overview)`
   font-size: 12px;
@@ -64,7 +64,7 @@ const Slide: React.FC<SlideProps> = ({
           <Column>
             <Title isDark={isDark}>{originalTitle}</Title>
             {voteAverage > 0 ? (
-              <Votes isDark={isDark}>{voteAverage}/10</Votes>
+              <Votes isDark={isDark}>⭐ {voteAverage}/10</Votes>
             ) : null}
             <Overview isDark={isDark}>{overview.slice(0, 90)}...</Overview>
           </Column>
